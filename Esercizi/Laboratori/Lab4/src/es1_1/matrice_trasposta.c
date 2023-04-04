@@ -14,7 +14,8 @@
 *
 */
 
-int main(){
+int main()
+{
     // Per testare più velocemente il vostro algoritmo potete 
     // usare la matrice sotto (modificandola secondo le vostre necessità)
     // invece di leggerla da input con scanf. Quando siete pronti a
