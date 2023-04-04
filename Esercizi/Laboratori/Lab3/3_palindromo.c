@@ -43,11 +43,10 @@ void inverti(int *A, int dim){
 }
 
 int confronta_array(int *X, int *Y, int dim){
-    int isEqual=1;
-    for(int i=0;i<dim && isEqual==1;i++){
-        if(X[i]!=Y[i])isEqual=0;
+    for(int i=0;i<dim;i++){
+        if(X[i]!=Y[i])return 0;
     }
-    return isEqual;
+    return 1;
 }
 
 void leggi_array(int *X, int dim) {

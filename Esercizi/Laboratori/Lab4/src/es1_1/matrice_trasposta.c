@@ -15,7 +15,7 @@
 */
 
 //Prototipo
-void trasponi1_matrice(int *mat1, int *matRisultato, int righe, int colonne);
+void trasponi_matrice(int *mat1, int *matRisultato, int righe, int colonne);
 
 int main(){
     // Per testare più velocemente il vostro algoritmo potete 
@@ -37,7 +37,7 @@ int main(){
 
     // trasponi matrice
     int matRisultato[colonne][righe];
-    trasponi1_matrice(*mat1, *matRisultato, righe, colonne);
+    trasponi_matrice(*mat1, *matRisultato, righe, colonne);
 
     //stampiamo il risultato
     //funzione libreria
@@ -50,7 +50,7 @@ int main(){
  * PRE: matrice generica
  * POST: Trasposizione della matrice
 */
-void trasponi1_matrice(int *mat1, int *matRisultato, int righe, int colonne){
+void trasponi_matrice(int *mat1, int *matRisultato, int righe, int colonne){
     for(int i=0;i<righe;i++){
         for(int j=0;j<colonne;j++){
             *(matRisultato+righe*j+i)=*(mat1+i*colonne+j);
