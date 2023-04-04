@@ -15,7 +15,7 @@
 */
 
 //Prototipo
-void trasponi1_matrice(int *mat1, int *matRisultato, int righe, int colonne)
+void trasponi1_matrice(int *mat1, int *matRisultato, int righe, int colonne);
 
 int main(){
     // Per testare più velocemente il vostro algoritmo potete 
