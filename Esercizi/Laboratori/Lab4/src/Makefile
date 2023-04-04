@@ -1,5 +1,5 @@
 LIBS_DIR = ../lib
-CC = gcc
+CC = gcc-12
 FLAGS = -g -O0 -L${LIBS_DIR} -I${LIBS_DIR} -lbasic
 
 ARCHIVES = ${LIBS_DIR}/libbasic.a
