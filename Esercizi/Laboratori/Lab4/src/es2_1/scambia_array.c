@@ -18,10 +18,10 @@
 
 
 // funzione scambiaArray per scambiare gli array (da scrivere)
+void scambia_array(int *A1, int *A2, int *dim1, int *dim2, int max);
+void scambia_interi(int *el1, int *el2);
 
-
-int main()
-{
+int main(){
     // Per testare più velocemente il vostro algoritmo potete 
     // usare gli array sotto (modificandoli secondo le vostre necessità)
     // invece di leggerli da input con scanf. Quando siete pronti a
@@ -44,6 +44,7 @@ int main()
 	leggi_array(array2, size_array2);
     
 	// scambia array
+	scambia_array(array1, array2, &size_array1, &size_array2, max);
     	
     // stampa array scambiati
 	for (int i = 0; i < size_array1; i += 1)
@@ -52,4 +53,25 @@ int main()
  		printf("[%d] -> A2: %d\n", i, array2[i]);
 
     return 0;
+}
+
+/*
+ * PRE: due array da scambiare, riferimenti alle dimensioni di entrambi gli array e copia della dimensione massima
+ * POST: scambio degli elementi dell'array
+*/
+void scambia_array(int *A1, int *A2, int *dim1, int *dim2, int max){
+	for(int i=0;i<max;i++){
+		scambia_interi((A1+i), (A2+i)); //Scambio gli elementi dell'array
+	}
+	scambia_interi(dim1, dim2);
+}
+
+/*
+ * PRE: due riferimenti ad elementi di tipo intero
+ * POST: scambio dei due elementi
+*/
+void scambia_interi(int *el1, int *el2){
+	int tmp=*el1;
+	*el1=*el2;
+	*el2=tmp;
 }

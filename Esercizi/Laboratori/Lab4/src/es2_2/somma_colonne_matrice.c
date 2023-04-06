@@ -12,7 +12,12 @@
 #include <basic/array.h>
 
 void calcola_somma(int *matrix, unsigned int righe, unsigned int colonne, int* somma){
-    // vostro codice qui
+    for(int col=0;col<colonne;col++){
+        *(somma+col)=0;
+        for(int row=0;row<righe;row++){
+            *(somma+col)+=*(matrix+row*colonne+col);
+        }
+    }
 }
 
 int main(){

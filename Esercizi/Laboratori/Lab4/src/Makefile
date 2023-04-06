@@ -1,6 +1,6 @@
 LIBS_DIR = ../lib
-CC = gcc-12
-FLAGS = -g -O0 -L${LIBS_DIR} -I${LIBS_DIR} -lbasic
+CC = gcc
+FLAGS = -O0 -L${LIBS_DIR} -I${LIBS_DIR} -lbasic #-g per debug
 
 ARCHIVES = ${LIBS_DIR}/libbasic.a
 

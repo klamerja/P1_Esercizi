@@ -35,4 +35,23 @@ int main()
     leggi_array(A, dim);
     
     // prosegui
+    int freq[dim];
+
+    for(int i=0;i<dim;i++){
+        freq[i]=0;
+    }
+    
+    for(int i=0;i<dim;i++){
+        if(freq[i]!=-1){
+            freq[i]++;
+            for(int j=i+1;j<dim;j++){
+                if(A[i]==A[j]){
+                    freq[i]++;
+                    freq[j]=-1;
+                }
+            }
+            printf("il valore %d appare %d volte\n", A[i], freq[i]);
+        }
+    }
+
 }
