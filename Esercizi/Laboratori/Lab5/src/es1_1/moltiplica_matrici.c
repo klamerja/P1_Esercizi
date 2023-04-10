@@ -21,6 +21,8 @@
 * ATTENZIONE: per la consegna su Moodle cambiare il nome della funzione, altrimenti andrà in conflitto con la funzione caricata su Moodle.
 */
 
+void moltiplica_matrici_double(int dim, double *mat1, double *mat2, double *matRisultato);
+
 int main (void) {
 	// Per testare più velocemente il vostro algoritmo potete 	
 	// usare la matrice sotto (modificandola secondo le vostre necessità)
@@ -42,9 +44,28 @@ int main (void) {
 	double mat2[dim][dim];
 	leggi_array_double(*mat2, dim*dim);
 
+	//Eseguiamo la moltiplicazione
+	//Sappiamo che il prodotto di matrici è dato dalle righe di mat1 e le colonne di mat2
+	double matRisultato[dim][dim];
+	moltiplica_matrici_double(*mat1, *mat2, *matRisultato, dim);
 
 	//stampa il risultato
 	stampa_matrice_double(*matRisultato, dim, dim);
 
 	return 0;
+}
+
+/*
+	PRE: la dimensione di mat1, mat2 e matRisultato deve essere dim*dim
+	POST: prodotto scalare di due matrici di double di dimensione dim*dim
+*/
+void moltiplica_matrici_double(int dim, double *mat1, double *mat2, double *matRisultato){
+	for(int i=0;i<dim;i++){
+		for(int j=0;j<dim;j++){
+			*(matRisultato+i*dim+j)=0;
+			for(int k=0;k<dim;k++){
+				*(matRisultato+i*dim+j)+=(*(mat1+i*dim+k)) * (*(mat2+k*dim+j));
+			}
+		}
+	}
 }

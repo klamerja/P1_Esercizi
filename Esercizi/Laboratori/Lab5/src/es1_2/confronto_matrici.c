@@ -15,6 +15,8 @@
 * ATTENZIONE: per la consegna su Moodle cambiare il nome della funzione, altrimenti andrà in conflitto con la funzione caricata su Moodle.
 */
 
+int confronta_matrici_double(double *Matrice1, double *Matrice2, int righe1, int colonne1, int righe2, int colonne2, double toll);
+
 int main (void) {
 	// Per testare più velocemente il vostro algoritmo potete 	
 	// usare la matrice sotto (modificandola secondo le vostre necessità)
@@ -38,6 +40,8 @@ int main (void) {
 	leggi_array_double(*mat2, righe2*colonne2);
 
 	//confrontare matrici
+	const double toll=0.001;
+	int res=confronta_matrici_double(*mat1, *mat2, righe1, colonne1, righe2, colonne2, toll);
 
 	//stampare risultato
 	if (res == 1)
@@ -46,4 +50,13 @@ int main (void) {
 		printf("Le matrici sono diverse");
 
 	return 0;
+}
+
+/*
+	PRE: due vettori che hanno grandezza propria
+	POST: confronto delle due matrici con tolleranza. 0 se matrici diverse, 1 se uguali
+*/
+int confronta_matrici_double(double *Matrice1, double *Matrice2, int righe1, int colonne1, int righe2, int colonne2, double toll){
+	if(righe1!=righe2 || colonne1 != colonne2)return 0;
+	return confronta_array_double(Matrice1, Matrice2, righe1*colonne1, toll);
 }
