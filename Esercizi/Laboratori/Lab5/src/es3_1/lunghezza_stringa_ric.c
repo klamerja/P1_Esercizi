@@ -1,31 +1,17 @@
 #include <stdio.h>
 
 /*
- * Scrivere una funzione ricorsiva che calcoli la 
- * lunghezza di una stringa. 
- * Scegliete voi il nome ed il prototipo della 
- * funzione. 
- * Nel main leggete da tastiera la stringa di cui
- * calcolar la lunghezza. 
- * Ad esempio se la stringa in input è "ciao", viene
- * stampato:
-   4
+    PRE: s è un puntatore alla stringa o a un carattere della stringa nel caso di esecuzione ricorsiva
+    POST: ritorna la lunghezza della stringa tramite chiamate ricorsive
+*/
+int str_len(char *s){
+    if(*s=='\0')return 0;
+    return 1+str_len(s+1);
+}
 
- */
-
-
-int main(void) {
-
-    char s[100]; //lunghezza massima stringa in input
+int main(void){
+    char s[100];
     scanf("%s", s);
-    int lunghezza_s;
-
-    /* 
-     * Inserite qua la chiamata alla vostra funzione 
-     * che calcola la lunghezza della stringa salvando
-     * il valore restituito in lunghezza_s. 
-     */
-    //lunghezza_s = 
+    int lunghezza_s=str_len(s);
     printf("%d\n", lunghezza_s);
-
 }
