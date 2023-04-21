@@ -14,7 +14,7 @@
 #define CASELLA_VUOTA ' ' 
 
 
-int board_vincente(char board[]); 
+int board_vincente(char *board); 
     /* 
         POST Restituisce 
                 1 se uno dei due giocatori ha vinto (si hanno 3 simboli uguali su una riga, una colonna o su una diagonale)
