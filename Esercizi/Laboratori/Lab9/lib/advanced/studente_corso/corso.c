@@ -1,0 +1,3 @@
+#include "../studente_corso.h"
+#include <stdio.h>
+//...
