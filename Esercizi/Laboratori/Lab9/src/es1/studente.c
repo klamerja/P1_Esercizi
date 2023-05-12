@@ -11,6 +11,8 @@ typedef struct studente {
     int voti[N_VOTI];
 } Studente;
 
+
+
 //Prototipi
 /*
     PRE: Uno studente qualsiasi
