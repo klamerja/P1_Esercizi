@@ -29,7 +29,9 @@ void leggi_studente(FILE* fp, Studente_extra* s){
 }
 
 void scrivi_studente(FILE* fp, Studente_extra s){
+    //Scrittura nome e cognome
     fprintf(fp, "%s %s ", s.nome, s.cognome);
+    //Scrittura se Laureato o meno: se Laureato, scrittura della media, i voti altrimenti
     if(s.type==Laureato){
         fprintf(fp, "%s %.1f", "Laureato", s.status.media);
     }else{
@@ -38,9 +40,11 @@ void scrivi_studente(FILE* fp, Studente_extra s){
             fprintf(fp, " %d", s.status.voti[i]);
         }
     }
+    fprintf(fp, "\n");
 }
 
 float calcola_media(Studente_extra s){
+    //Se studente è laureato, ritorna la media contenuta nello status studente, altrimenti viene calcolata
     if(s.type==Laureato){
         return s.status.media;
     }else{

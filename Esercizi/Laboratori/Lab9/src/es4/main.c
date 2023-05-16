@@ -28,12 +28,12 @@ int main(){
         fp=fopen("es4/studenti_lau.txt", "w");
 
         for(int i=0;i<n_stud;i++){
-            if(completato_percorso(*(studenti+i))){
+            //Controllo se lo studente è laureato o meno e lo aggiorno se ha completato il percorso
+            if(studenti->type!=Laureato && completato_percorso(*(studenti+i))){
                 (studenti+i)->status.media=calcola_media(*(studenti+i));
                 (studenti+i)->type=Laureato;
             }
             scrivi_studente(fp, *(studenti+i));
-            if(i!=n_stud-1)fprintf(fp, "\n");
         }
 
         fclose(fp);
