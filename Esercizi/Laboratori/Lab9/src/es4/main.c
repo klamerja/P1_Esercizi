@@ -29,7 +29,7 @@ int main(){
 
         for(int i=0;i<n_stud;i++){
             //Controllo se lo studente è laureato o meno e lo aggiorno se ha completato il percorso
-            if(studenti->type!=Laureato && completato_percorso(*(studenti+i))){
+            if((studenti+i)->type!=Laureato && completato_percorso(*(studenti+i))){
                 (studenti+i)->status.media=calcola_media(*(studenti+i));
                 (studenti+i)->type=Laureato;
             }
@@ -40,9 +40,6 @@ int main(){
 
         //Output finale
         fp = fopen("es4/studenti_lau.txt", "r");
-        n_stud=conta_linee(fp);
-        rewind(fp);
-
         for(int i=0; i<n_stud; i++){
             Studente_extra s;
             leggi_studente(fp, &s);
