@@ -32,3 +32,28 @@ void print_studente(Studente s);
 //Il tipo Corso è un alias di Studente*, puntatore ad array di studenti allocato nello heap
 typedef Studente *Corso;
 
+/*
+    PRE: gli studenti del corso, il numero di studenti, esame preso in considerazione (compreso tra 0 ed N_VOTI-1)
+    POST: percentuale di superamento dell'esame
+*/
+float percentuale_superamento_test(Corso s, int n_studenti, int esame);
+//La ratio non deve essere in centesimi. Se un esame è stato superato da 1 sola persona su 2, la funzione deve restituire 0.5 e non 50.
+
+/*
+    PRE: gli studenti del corso, il numero di studenti
+    POST: restituisce lo studente con la media più alta. Se più di uno studente ha stessa media viene preso quello con indice minore
+*/
+Studente miglior_studente(Corso s, int n_studenti);
+
+/*
+    PRE: puntatori a due studenti del corso
+    POST: swap in memoria dei due studenti
+*/
+void swap_studenti(Corso s1, Corso s2);
+
+/*
+    PRE: studenti del corso, il numero di studenti
+    POST: ordinamento degli studenti a secondo della loro media (senza quicksort)
+*/
+void ordina_studenti(Corso s, int n_studenti);
+
