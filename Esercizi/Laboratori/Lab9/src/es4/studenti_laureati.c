@@ -3,78 +3,62 @@
 #include <basic/array.h>
 
 int conta_linee(FILE* fp){
-    int numb_lines=1;
+    int num_linee=1; //L'ultima riga finisce con EOF, quindi una riga va contata di default
     char c=fgetc(fp);
     while(c!=EOF){
-        if(c=='\n')numb_lines++;
+        if(c=='\n')num_linee++;
         c=fgetc(fp);
     }
-    return numb_lines;
+    return num_linee;
 }
 
 void leggi_studente(FILE* fp, Studente_extra* s){
-    char isLaureato[20];
-    fscanf(fp, "%s %s %s", s->nome, s->cognome, isLaureato);
-    //Controllo della laurea e lettura
-    if(strcmp(isLaureato, "Laureato")==0){
-        s->type=Laureato;
+    char *is_laureato;
+    fscanf(fp, "%s %s %s", s->nome, s->cognome, is_laureato);
+    printf
+    if(strcmp(is_laureato, "Laureato")==0)s->type=Laureato;
+    if(s->type==Laureato){
         fscanf(fp, "%f", &s->status.media);
-    }
-    else{
-        s->type=Non_Laureato;
+    }else{
         for(int i=0;i<N_VOTI;i++){
-            fscanf(fp, "%d", &s->status.voti[i]);
+            fscanf(fp, "%d", s->status.voti+i);
         }
     }
 }
 
 void scrivi_studente(FILE* fp, Studente_extra s){
-    //Scrittura nome e cognome
     fprintf(fp, "%s %s ", s.nome, s.cognome);
-    //Scrittura se Laureato o meno: se Laureato, scrittura della media, i voti altrimenti
     if(s.type==Laureato){
-        fprintf(fp, "%s %.1f", "Laureato", s.status.media);
+        fprintf(fp, "Laureato %.1f", s.status.media);
     }else{
-        fprintf(fp, "%s", "Non_laureato");
+        fprintf(fp, "Non_laureato");
         for(int i=0;i<N_VOTI;i++){
             fprintf(fp, " %d", s.status.voti[i]);
         }
     }
-    fprintf(fp, "\n");
 }
 
 float calcola_media(Studente_extra s){
-    //Se studente è laureato, ritorna la media contenuta nello status studente, altrimenti viene calcolata
-    if(s.type==Laureato){
-        return s.status.media;
-    }else{
-        float numb_voti=N_VOTI;
-        int sum=0;
-        for(int i=0;i<N_VOTI;i++){
-            if(s.status.voti[i]==-1)numb_voti--;
-            else{
-                sum+=s.status.voti[i];
-            }
-        }
-        return sum / numb_voti;
+    if(s.type==Laureato)return s.status.media;
+    int n_esami=N_VOTI;
+    float sum_voti=0;
+    for(int i=0;i<N_VOTI;i++){
+        if(s.status.voti[i]==-1)n_esami--;
+        else sum_voti+=s.status.voti[i];
     }
+    if(n_esami==0)return 0.0;
+    return sum_voti/n_esami;
 }
 
 int sufficienza_studente(Studente_extra s){
-    if(s.type==Laureato)return 1;
-    if(calcola_media(s)>=18.0)return 1;
-    return 0;
+    return calcola_media(s)>=18;
 }
 
 int completato_percorso(Studente_extra s){
-    if(s.type==Laureato)return 1;
     for(int i=0;i<N_VOTI;i++){
         if(s.status.voti[i]==-1)return 0;
     }
-    if(sufficienza_studente(s)){
-        return 1;
-    }
-    return 0;
+    return sufficienza_studente(s);
 }
 
 void print_studente(Studente_extra s){

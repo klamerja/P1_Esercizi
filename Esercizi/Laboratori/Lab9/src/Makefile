@@ -1,6 +1,6 @@
 LIBS_DIR = ../lib
 CC = gcc
-FLAGS = -g -O0 -L${LIBS_DIR} -I${LIBS_DIR} -ladvanced -lbasic
+FLAGS = -g -O0 -L${LIBS_DIR} -I${LIBS_DIR} -ladvanced -lbasic -lm
 
 ARCHIVES = ${LIBS_DIR}/libbasic.a ${LIBS_DIR}/libadvanced.a
 

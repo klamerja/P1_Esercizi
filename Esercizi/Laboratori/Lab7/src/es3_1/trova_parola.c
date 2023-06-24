@@ -1,4 +1,5 @@
 #include <stdio.h>
+#define TABLE_SIZE 195
 
 /*
  * Enigmistica - Parole intrecciate. 
@@ -29,6 +30,19 @@
  * ATTENZIONE: le parole fornite devono avere solo lettere maiuscole, come la tabella
  */
 
+int strlen(char* str){
+    int len=0;
+    int i=0;
+    while(*(str++ +i)!='\0')len++;
+    return len;
+}
+
+int find_word(char* table, int x, int y){
+    for(int i=0;i<TABLE_SIZE;i++){
+        if
+    }
+}
+
 int main(void) {
 
     char tabella[13][16] = { 
@@ -51,8 +65,8 @@ int main(void) {
     char parola[256];
 
     scanf("%255s", parola);
+    int len_parola=strlen(parola);
 
-    //codice qui
     printf("Parola %s ", parola);
     if (x != -1)
         printf("in (%d,%d), direzione %s\n", x, y, dir==0?"s->d":"d->s");

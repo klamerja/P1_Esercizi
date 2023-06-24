@@ -1,7 +1,6 @@
 #include <advanced/studente_corso.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 /* FORMATO FILE STUDENTI: 
  * File testuale, una riga per ogni studente nel formato seguente:
  * nome cognome voto1 voto2 voto3 voto4 voto5
@@ -9,6 +8,8 @@
  */
 
 
+
+//Prototipi
 /*
     PRE: fp punta all'inizio di un file studenti
     POST: conta il numero di entries nel file, fp punta di nuovo all'inizio del file
@@ -16,14 +17,14 @@
 int conta_linee(FILE* fp);
 
 /*
-    PRE: fp punta all'inizio di un file studenti, s è un puntatore a struct studente
+    PRE: fp punta a qualsiasi parte del file, s è un puntatore a studente, dove verrà inserita la copia
     POST: legge da file i dati relativi ad un unico studente e li copia nella variabile studente puntata da s
 */
 void leggi_studente(FILE* fp, Studente* s);
 
 /*
-    PRE: fp punta all'inizio di un file studenti, s è uno studente
-    POST: scrive su file i dati di un unico studente
+    PRE: fp è la posizione all'interno del file, s è lo studente da scrivere
+    POST: 
 */
 void scrivi_studente(FILE* fp, Studente s);
 
@@ -32,38 +33,44 @@ void scrivi_studente(FILE* fp, Studente s);
 //Main block
 int main(){
     FILE *fp;
-    //ATTENZIONE: in locale il percorso è es3/studenti.txt, su moodle è studenti.txt
-    //Vale anche per l'es 4
-    fp = fopen("es3/studenti.txt","r");
+    fp = fopen("studenti.txt","r");
     if (fp==NULL){
         printf("Il file non può essere aperto\n");
     }
     else {
-        //Lettura file originale e storage all'interno del corso
+        //Conteggio studenti presenti nel file studenti.txt e allocazione dinamica del corso mediante malloc
         int n_stud = conta_linee(fp);
         Corso s = malloc(sizeof(Studente)*n_stud);
-        for(int i=0;i<n_stud;i++)leggi_studente(fp, (s+i));
-        fclose(fp); //Chiudo lo stream di studenti.txt
+        rewind(fp);
+
+        //Lettura studenti
+        for(int i=0;i<n_stud;i++){
+            leggi_studente(fp, s+i);
+        }
+
+        //Fine lettura file
+        fclose(fp);
         printf("File letto\n\n");
 
-        //Ordinamento
-        ordina_studenti(s, n_stud);
+        //ordinamento
+        ordina_studenti(s, n_stud); //Funzione contenuta nella librearia che ordina gli studenti in base alla loro media in maniera crescente
 
-        //Scrittura su nuovo file (ordine decrescente)
-        fp=fopen("es3/studenti_ord.txt", "w");
+        //Scrittura degli studenti ordinati su nuovo file
+        fp=fopen("studenti_ord.txt", "w");
         for(int i=n_stud-1;i>=0;i--){
+            //Il corso è stato ordinato, basta sfruttare la funzione di scrittura studenti
             scrivi_studente(fp, *(s+i));
+            if(i!=(n_stud-1))fputc('\n', fp);
         }
-        fclose(fp); //Effettuo il flush del buffer
+        fclose(fp);
 
-        //Output per i test di moodle
-        fp = fopen("es3/studenti_ord.txt", "r");
+        //output per i test di moodle
+        fp = fopen("studenti_ord.txt", "r");
         for(int i=0; i<n_stud; i++){
             Studente s;
             leggi_studente(fp, &s);
             print_studente(s);
         }
-        fclose(fp);
     }
 }
 
@@ -71,27 +78,25 @@ int main(){
 
 //Funzioni
 int conta_linee(FILE* fp){
-    int numb_lines=1; //L'ultima riga finisce con un EOF
+    int num_linee=1; //L'ultima riga finisce con EOF, quindi una riga va contata di default
     char c=fgetc(fp);
     while(c!=EOF){
+        if(c=='\n')num_linee++;
         c=fgetc(fp);
-        if(c=='\n')numb_lines++;
     }
-    rewind(fp);
-    return numb_lines;
+    return num_linee;
 }
 
 void leggi_studente(FILE* fp, Studente* s){
     fscanf(fp, "%s %s", s->nome, s->cognome);
     for(int i=0;i<N_VOTI;i++){
-        fscanf(fp, "%d", &s->voti[i]);
+        fscanf(fp, "%d", (s->voti)+i); //anche &s->voti[i] (associatività maggiore di -> rispetto a &)
     }
 }
 
 void scrivi_studente(FILE* fp, Studente s){
-    fprintf(fp, "%s %s ", s.nome, s.cognome);
+    fprintf(fp, "%s %s", s.nome, s.cognome);
     for(int i=0;i<N_VOTI;i++){
         fprintf(fp, " %d", s.voti[i]);
     }
-    fprintf(fp, "\n");
 }

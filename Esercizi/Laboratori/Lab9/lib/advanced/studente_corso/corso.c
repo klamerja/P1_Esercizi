@@ -1,45 +1,43 @@
 #include "../studente_corso.h"
 #include <stdio.h>
 
-float percentuale_superamento_test(Corso s, int n_studenti, int esame){
-    int num_studenti_valutati=n_studenti; //Numero effettivo di studenti che hanno effettuato l'esame
-    int num_studenti_sufficienti=0; //Numero di studenti sufficienti
+float percentuale_superamento_test(Corso c, int n_studenti, int esame){
+    int n_studenti_test=0;
+    int n_test_superati=0;
     for(int i=0;i<n_studenti;i++){
-        int valutazione_studente=(s+i)->voti[esame]; //Valutazione dell'esame dell'i-esimo studente
-        if(valutazione_studente==-1)num_studenti_valutati--; //Controllo della presenza dell'esame
-        else if(valutazione_studente>=18)num_studenti_sufficienti++; //Controllo la sufficienza nell'esame nel caso in cui venga fatto
-    }
-    //Se nessuno viene valutato, la percentuale di superamento è 0.0
-    if(num_studenti_valutati==0)return 0.0;
-    //Calcolo la ratio di superamento
-    float ratio=(float)num_studenti_sufficienti / num_studenti_valutati;
-    return ratio;
-}
-
-Studente miglior_studente(Corso s, int n_studenti){
-    int max_media=-1.0;
-    Studente studente_migliore;
-    for(int i=0;i<n_studenti;i++){
-        if(calcola_media(*(s+i))>max_media){
-            max_media=calcola_media(*(s+i));
-            studente_migliore=*(s+i);
+        Studente s=*(c+i);
+        if(s.voti[esame]!=-1){
+            n_studenti_test++;
+            if(s.voti[esame]>=18)n_test_superati++;
         }
     }
-    return studente_migliore;
+    if(!n_studenti_test)return 0.0;
+    return ((float)n_test_superati)/n_studenti_test;
 }
 
-void swap_studenti(Corso s1, Corso s2){
+Studente miglior_studente(Corso c, int n_studenti){
+    Studente miglior_studente=*c; //Potevamo anche solamente salvarci l'indice e poi lavorare con l'array
+    float max_media=calcola_media(miglior_studente);
+    for(int i=1;i<n_studenti;i++){
+        Studente s=*(c+i);
+        if(calcola_media(s)>max_media){
+            max_media=calcola_media(s);
+            miglior_studente=s;
+        }
+    }
+    return miglior_studente;
+}
+
+void swap_studenti(Studente* s1, Studente* s2){
     Studente tmp=*s1;
     *s1=*s2;
     *s2=tmp;
 }
 
-void ordina_studenti(Corso s, int n_studenti){
-    for(int i=0;i<(n_studenti-1);i++){
-        for(int j=i+1;j<n_studenti;j++){
-            if(calcola_media(*(s+i))>calcola_media(*(s+j))){
-                swap_studenti(s+i, s+j);
-            }
+void ordina_studenti(Corso c, int n_studenti){
+    for(int i=0;i<n_studenti-1;i++){
+        for(int j=i+1;j<n_studenti;j++){ //ATTENZIONE: con j=1 sicuramente quando i sarà minore di j, vuol dire che quelli precedenti sono ordinati e restano così, se li vado a rivedere è ovvio che sarà più grande, ma mettendo j=1, vado a riscambiarli
+            if(calcola_media(*(c+i))>calcola_media(*(c+j)))swap_studenti(c+i,c+j);//Non potevo modificare semplicemente i c perché i puntatori agli elemenenti dell'array sono passati per copia
         }
     }
 }

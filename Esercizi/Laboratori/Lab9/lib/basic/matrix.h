@@ -21,7 +21,3 @@ void trasposta_matrice_double(double *, double *, int , int );
           Matrice identità: 1 sulla diagonale principale, 0 gli altri elementi
 */
 void matrice_identita_double(double *Matrice, int dim);
-
-/* per PRE e POST vedi lab 5*/
-void moltiplica_matrici_double(int , double *, double *, double *);
-int confronta_matrici_double(double *, double* , int , int , int , int, double);
