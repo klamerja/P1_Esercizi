@@ -1,9 +1,8 @@
 #include "studenti_laureati.h"
-#include <string.h>
 #include <basic/array.h>
 
 int conta_linee(FILE* fp){
-    int num_linee=1; //L'ultima riga finisce con EOF, quindi una riga va contata di default
+    int num_linee=1;
     char c=fgetc(fp);
     while(c!=EOF){
         if(c=='\n')num_linee++;
@@ -13,29 +12,24 @@ int conta_linee(FILE* fp){
 }
 
 void leggi_studente(FILE* fp, Studente_extra* s){
+    //Leggo nome e cognome e is_laureato
     char *is_laureato;
     fscanf(fp, "%s %s %s", s->nome, s->cognome, is_laureato);
-    printf
-    if(strcmp(is_laureato, "Laureato")==0)s->type=Laureato;
-    if(s->type==Laureato){
-        fscanf(fp, "%f", &s->status.media);
-    }else{
+    s->type=(*is_laureato=='L')?Laureato:NonLaureato;
+
+    //Identifico se lo studente è laureato o meno
+    if(s->type==Laureato)fscanf(fp, "%f", &s->status.media);
+    else{
         for(int i=0;i<N_VOTI;i++){
-            fscanf(fp, "%d", s->status.voti+i);
+            fscanf(fp, "%d", &s->status.voti[i]);
         }
     }
 }
 
 void scrivi_studente(FILE* fp, Studente_extra s){
-    fprintf(fp, "%s %s ", s.nome, s.cognome);
-    if(s.type==Laureato){
-        fprintf(fp, "Laureato %.1f", s.status.media);
-    }else{
-        fprintf(fp, "Non_laureato");
-        for(int i=0;i<N_VOTI;i++){
-            fprintf(fp, " %d", s.status.voti[i]);
-        }
-    }
+    fprintf(fp, "%s %s %s", s.nome, s.cognome, (s.type==Laureato)?"Laureato":"Non_laureato");
+    if(s.type==Laureato)fprintf(fp, " %.1f", s.status.media);
+    else for(int i=0;i<N_VOTI;i++)fprintf(fp, " %d", s.status.voti[i]);
 }
 
 float calcola_media(Studente_extra s){
@@ -51,10 +45,11 @@ float calcola_media(Studente_extra s){
 }
 
 int sufficienza_studente(Studente_extra s){
-    return calcola_media(s)>=18;
+    return calcola_media(s)>=18.0;
 }
 
 int completato_percorso(Studente_extra s){
+    if(s.type==Laureato)return 1;
     for(int i=0;i<N_VOTI;i++){
         if(s.status.voti[i]==-1)return 0;
     }

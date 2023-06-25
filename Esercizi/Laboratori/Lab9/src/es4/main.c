@@ -7,30 +7,28 @@ int main(){
     fp = fopen("studenti.txt","r");
     if (fp==NULL){
         printf("Il file non può essere aperto\n");
-        return EXIT_FAILURE;
     }
     else {
-        //Trovo il num di studenti presenti all'interno del file
+        //Trovo il numero di studenti
         int n_stud=conta_linee(fp);
         rewind(fp);
 
-        //Leggo tutti gli studenti del file e li salvo all'interno ad un array di Studente_Extra
-        Studente_extra* c=malloc(sizeof(Studente_extra)*n_stud);
+        //Memorizzo gli studenti all'interno di un array
+        Studente_extra *c=malloc(sizeof(Studente_extra)*n_stud);
         for(int i=0;i<n_stud;i++){
             leggi_studente(fp, c+i);
         }
-        fclose(fp); //Chiusura del file
+        fclose(fp); //Chiusura file
 
-        //Verifico la situazione scolastica e aggiorno le lauree
+        //Controllo la situazione degli studenti e effettuo aggiornamenti
         for(int i=0;i<n_stud;i++){
-            Studente_extra s=*(c+i);
-            if(completato_percorso(s) && s.type==Non_Laureato){
-                s.status.media=calcola_media(s);
-                s.type=Laureato;
+            if((c+i)->type==NonLaureato && completato_percorso(*(c+i))){
+                (c+i)->status.media=calcola_media(*(c+i));
+                (c+i)->type=Laureato;
             }
         }
 
-        //Apro e scrivo all'interno di studenti_lau.txt
+        //Scrivo in studenti_lau.txt la mia lista aggiornata
         fp=fopen("studenti_lau.txt", "w");
         for(int i=0;i<n_stud;i++){
             scrivi_studente(fp, *(c+i));
@@ -45,6 +43,5 @@ int main(){
             leggi_studente(fp, &s);
             print_studente(s);
         }
-        fclose(fp);
     }
 }
