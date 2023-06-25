@@ -1,10 +1,10 @@
 #include "../list.h"
 
-struct nodo* new_nodo(int info){
-    struct nodo *temp =  (struct nodo*)malloc(sizeof(struct nodo));
-    temp->info = info;
-    temp->next = NULL;
-    return temp;
+struct nodo *new_nodo(int val){
+    struct nodo *nuovo_nodo=malloc(sizeof(struct nodo));
+    nuovo_nodo->info=val;
+    nuovo_nodo->next=NULL;
+    return nuovo_nodo;
 }
 
 void pre_insert(struct nodo** pptr, int val){
@@ -14,19 +14,25 @@ void pre_insert(struct nodo** pptr, int val){
 }
 
 void suf_insert(struct nodo** pptr, int val){
-    struct nodo* nuovo = new_nodo(val);
-    while(isempty(*pptr)==0){
-        pptr = &((*pptr)->next);
+    while(!is_empty(*pptr)){
+        pptr=&((*pptr)->next); //Evito di modificare il puntatore del primo elemento per sovvrascriverlo, vado quindi a modificare la copia, cioè pptr
     }
-    *pptr = nuovo;
+    pre_insert(pptr, val); //Scorro tutta la lista (inserimento in coda). Con pre insert il ptr è a null, viene spostato a destra per inserire il nodo di val in testa a null, e successivamente vi è null
 }
+
+// void suf_insert_easy(struct nodo** pptr, int val){
+//     while(!is_empty(*pptr)){
+//         pptr=&((*pptr)->next); //Evito di modificare il puntatore del primo elemento per sovvrascriverlo, vado quindi a modificare la copia, cioè pptr
+//     }
+//     *pptr=new_nodo(val);
+// }
 
 void modifica(struct nodo** ptr, int pos, int val){
     while(pos!=0){
-        ptr = &((*ptr)->next);
         pos--;
+        ptr=&((*ptr)->next);
     }
-    (*ptr)->info = val;
+    (*ptr)->info=val;
 }
 
 void delete_list(struct nodo* ptr){
